@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -9,34 +10,37 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsAndConditions from './components/TermsAndConditions';
 import Contact from './components/Contact';
 import BackToTop from './components/BackToTop';
+import SEO from './components/SEO';
 import axios from 'axios';
 
-function App() {
-  const [currentView, setCurrentView] = useState('home');
-  const [selectedPlatform, setSelectedPlatform] = useState(null);
+// Wrapper component to handle routing logic and state
+const AppContent = () => {
+  const location = useLocation();
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [videoData, setVideoData] = useState(null);
 
-  const handlePlatformSelect = (platform) => {
-    setSelectedPlatform(platform);
-    // User requested to remove automatic scroll-to-input behavior
+  // Determine current platform based on route
+  const getPlatformFromPath = (path) => {
+    if (path.includes('facebook')) return 'facebook';
+    if (path.includes('instagram')) return 'instagram';
+    if (path.includes('youtube')) return 'youtube';
+    return 'facebook'; // Default for home or first visit
   };
 
-  const navigateTo = (view) => {
-    setCurrentView(view);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const selectedPlatform = getPlatformFromPath(location.pathname);
+
+  // Clear data when route changes
+  useEffect(() => {
+    setUrl('');
+    setError(null);
+    setVideoData(null);
+  }, [location.pathname]);
 
   const handleGetVideoInfo = async () => {
     if (!url.trim()) {
       setError('Please enter a video URL');
-      return;
-    }
-
-    if (!['facebook', 'youtube', 'instagram'].includes(selectedPlatform)) {
-      setError('Please select a platform first.');
       return;
     }
 
@@ -64,7 +68,6 @@ function App() {
 
       if (response.data.status === 'success') {
         setVideoData(response.data.data);
-        // Scroll to results after fetching
         setTimeout(() => {
           const element = document.getElementById('results');
           if (element) {
@@ -93,45 +96,56 @@ function App() {
       if (error) setError(null);
     } catch (err) {
       console.error('Failed to read clipboard:', err);
-      // Fallback or silent error
     }
   };
 
+  const DownloaderPage = ({ title, description }) => (
+    <>
+      <SEO title={title} description={description} />
+      <Hero
+        selectedPlatform={selectedPlatform}
+        url={url}
+        setUrl={setUrl}
+        onDownload={handleGetVideoInfo}
+        onPaste={handlePaste}
+        loading={loading}
+        error={error}
+        setVideoData={setVideoData}
+        setError={setError}
+      />
+      <Downloader
+        selectedPlatform={selectedPlatform}
+        videoData={videoData}
+        loading={loading}
+        error={error}
+      />
+      <FAQ />
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar onNavigate={navigateTo} currentView={currentView} />
-      {currentView === 'home' ? (
-        <>
-          <Hero
-            selectedPlatform={selectedPlatform}
-            onPlatformSelect={handlePlatformSelect}
-            url={url}
-            setUrl={setUrl}
-            onDownload={handleGetVideoInfo}
-            onPaste={handlePaste}
-            loading={loading}
-            error={error}
-            setVideoData={setVideoData}
-            setError={setError}
-          />
-          <Downloader
-            selectedPlatform={selectedPlatform}
-            videoData={videoData}
-            loading={loading}
-            error={error}
-          />
-          <FAQ />
-        </>
-      ) : currentView === 'privacy' ? (
-        <PrivacyPolicy />
-      ) : currentView === 'terms' ? (
-        <TermsAndConditions />
-      ) : (
-        <Contact />
-      )}
-      <Footer onNavigate={navigateTo} />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<DownloaderPage title="Home" description="Download videos from Facebook, Instagram, and YouTube instantly." />} />
+        <Route path="/facebook-video-downloader" element={<DownloaderPage title="Facebook Video Downloader" description="Download Facebook videos in HD quality instantly – fast, free, and secure." />} />
+        <Route path="/instagram-video-downloader" element={<DownloaderPage title="Instagram Video Downloader" description="Download Instagram reels, videos, and posts in one click." />} />
+        <Route path="/youtube-video-downloader" element={<DownloaderPage title="YouTube Video Downloader" description="Download YouTube videos in multiple resolutions easily." />} />
+        <Route path="/privacy-policy" element={<><SEO title="Privacy Policy" /><PrivacyPolicy /></>} />
+        <Route path="/terms-and-conditions" element={<><SEO title="Terms & Conditions" /><TermsAndConditions /></>} />
+        <Route path="/contact" element={<><SEO title="Contact Us" /><Contact /></>} />
+      </Routes>
+      <Footer />
       <BackToTop />
     </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

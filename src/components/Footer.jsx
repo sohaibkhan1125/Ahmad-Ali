@@ -1,7 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Footer = ({ onNavigate }) => {
+const Footer = () => {
     const currentYear = new Date().getFullYear();
+
+    const smoothScroll = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <footer id="contact" className="bg-gray-900 text-white">
@@ -58,28 +66,17 @@ const Footer = ({ onNavigate }) => {
                         <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                         <ul className="space-y-2">
                             <li>
-                                <button
-                                    onClick={() => {
-                                        onNavigate('home');
-                                        setTimeout(() => {
-                                            const element = document.getElementById('home');
-                                            if (element) element.scrollIntoView({ behavior: 'smooth' });
-                                        }, 100);
-                                    }}
+                                <Link
+                                    to="/"
+                                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
                                 >
                                     Home
-                                </button>
+                                </Link>
                             </li>
                             <li>
                                 <button
-                                    onClick={() => {
-                                        onNavigate('home');
-                                        setTimeout(() => {
-                                            const element = document.getElementById('download');
-                                            if (element) element.scrollIntoView({ behavior: 'smooth' });
-                                        }, 100);
-                                    }}
+                                    onClick={() => smoothScroll('results')}
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
                                 >
                                     Download
@@ -87,13 +84,7 @@ const Footer = ({ onNavigate }) => {
                             </li>
                             <li>
                                 <button
-                                    onClick={() => {
-                                        onNavigate('home');
-                                        setTimeout(() => {
-                                            const element = document.getElementById('faqs');
-                                            if (element) element.scrollIntoView({ behavior: 'smooth' });
-                                        }, 100);
-                                    }}
+                                    onClick={() => smoothScroll('faqs')}
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
                                 >
                                     FAQs
@@ -107,28 +98,28 @@ const Footer = ({ onNavigate }) => {
                         <h4 className="text-lg font-semibold mb-4">Legal</h4>
                         <ul className="space-y-2">
                             <li>
-                                <button
-                                    onClick={() => onNavigate('privacy')}
+                                <Link
+                                    to="/privacy-policy"
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
                                 >
                                     Privacy Policy
-                                </button>
+                                </Link>
                             </li>
                             <li>
-                                <button
-                                    onClick={() => onNavigate('terms')}
+                                <Link
+                                    to="/terms-and-conditions"
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
                                 >
                                     Terms of Service
-                                </button>
+                                </Link>
                             </li>
                             <li>
-                                <button
-                                    onClick={() => onNavigate('contact')}
+                                <Link
+                                    to="/contact"
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
                                 >
                                     Contact
-                                </button>
+                                </Link>
                             </li>
                         </ul>
                     </div>
