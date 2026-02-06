@@ -24,7 +24,7 @@ const Footer = ({ onNavigate }) => {
                         </p>
                         <div className="flex gap-4">
                             <a
-                                href="#"
+                                href="/"
                                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-300"
                                 aria-label="Facebook"
                             >
@@ -33,7 +33,7 @@ const Footer = ({ onNavigate }) => {
                                 </svg>
                             </a>
                             <a
-                                href="#"
+                                href="/"
                                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors duration-300"
                                 aria-label="Instagram"
                             >
@@ -42,7 +42,7 @@ const Footer = ({ onNavigate }) => {
                                 </svg>
                             </a>
                             <a
-                                href="#"
+                                href="/"
                                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors duration-300"
                                 aria-label="YouTube"
                             >
