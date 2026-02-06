@@ -6,25 +6,6 @@ const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const handleNavClick = (path, sectionId) => {
-        if (location.pathname !== path) {
-            navigate(path);
-            if (sectionId) {
-                setTimeout(() => {
-                    const element = document.getElementById(sectionId);
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            }
-        } else if (sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        setIsMenuOpen(false);
-    };
 
     const navLinks = [
         { name: 'Home', path: '/' },
