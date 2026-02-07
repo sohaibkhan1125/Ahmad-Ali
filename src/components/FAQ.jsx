@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(null);
@@ -96,17 +97,13 @@ const FAQ = () => {
                     <p className="mb-6 opacity-90">
                         We're here to help! Feel free to reach out to our support team.
                     </p>
-                    <button
-                        onClick={() => {
-                            const element = document.getElementById('contact');
-                            if (element) {
-                                element.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        }}
+                    <Link
+                        to="/contact"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         className="bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg"
                     >
                         Contact Us
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

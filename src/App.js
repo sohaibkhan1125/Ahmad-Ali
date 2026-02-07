@@ -11,6 +11,7 @@ import TermsAndConditions from './components/TermsAndConditions';
 import Contact from './components/Contact';
 import BackToTop from './components/BackToTop';
 import SEO from './components/SEO';
+import AICaptionGenerator from './components/AICaptionGenerator';
 import axios from 'axios';
 
 // Wrapper component to handle routing logic and state
@@ -23,10 +24,11 @@ const AppContent = () => {
 
   // Determine current platform based on route
   const getPlatformFromPath = (path) => {
+    if (path === '/') return 'home';
     if (path.includes('facebook')) return 'facebook';
     if (path.includes('instagram')) return 'instagram';
     if (path.includes('youtube')) return 'youtube';
-    return 'facebook'; // Default for home or first visit
+    return 'home'; // Default fallback
   };
 
   const selectedPlatform = getPlatformFromPath(location.pathname);
@@ -99,9 +101,9 @@ const AppContent = () => {
     }
   };
 
-  const DownloaderPage = ({ title, description }) => (
+  const DownloaderPage = ({ title, description, keywords }) => (
     <>
-      <SEO title={title} description={description} />
+      <SEO title={title} description={description} keywords={keywords} />
       <Hero
         selectedPlatform={selectedPlatform}
         url={url}
@@ -127,13 +129,30 @@ const AppContent = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       <Routes>
-        <Route path="/" element={<DownloaderPage title="Home" description="Download videos from Facebook, Instagram, and YouTube instantly." />} />
-        <Route path="/facebook-video-downloader" element={<DownloaderPage title="Facebook Video Downloader" description="Download Facebook videos in HD quality instantly – fast, free, and secure." />} />
-        <Route path="/instagram-video-downloader" element={<DownloaderPage title="Instagram Video Downloader" description="Download Instagram reels, videos, and posts in one click." />} />
-        <Route path="/youtube-video-downloader" element={<DownloaderPage title="YouTube Video Downloader" description="Download YouTube videos in multiple resolutions easily." />} />
-        <Route path="/privacy-policy" element={<><SEO title="Privacy Policy" /><PrivacyPolicy /></>} />
-        <Route path="/terms-and-conditions" element={<><SEO title="Terms & Conditions" /><TermsAndConditions /></>} />
-        <Route path="/contact" element={<><SEO title="Contact Us" /><Contact /></>} />
+        <Route path="/" element={<DownloaderPage
+          title="Social Vexa - All-in-One Social Media Tools"
+          description="Download videos from Facebook, Instagram, YouTube and generate AI captions for your social media posts instantly. Fast, free, and secure."
+          keywords="social media downloader, facebook video downloader, instagram reels downloader, youtube video downloader, ai caption generator, social media tools, video downloader free"
+        />} />
+        <Route path="/facebook-video-downloader" element={<DownloaderPage
+          title="Facebook Video Downloader - Download FB Videos in HD"
+          description="Download Facebook videos in HD quality instantly. Fast, free, and secure Facebook video downloader for mobile and desktop."
+          keywords="facebook video downloader, download fb videos, facebook downloader hd, save facebook videos"
+        />} />
+        <Route path="/instagram-video-downloader" element={<DownloaderPage
+          title="Instagram Video Downloader - Download Reels & IG Videos"
+          description="Download Instagram reels, videos, and posts in one click. High-quality Instagram downloader for fast and easy saving."
+          keywords="instagram video downloader, download instagram reels, ig downloader, save instagram videos, instagram photo downloader"
+        />} />
+        <Route path="/youtube-video-downloader" element={<DownloaderPage
+          title="YouTube Video Downloader - Download YT Videos in 4K/HD"
+          description="Download YouTube videos in multiple resolutions easily. Fast and reliable YouTube video downloader for all devices."
+          keywords="youtube video downloader, download yt videos, youtube downloader hd, save youtube videos, 4k youtube downloader"
+        />} />
+        <Route path="/ai-caption-generator" element={<AICaptionGenerator />} />
+        <Route path="/privacy-policy" element={<><SEO title="Privacy Policy" description="Learn about how Social Vexa handles your privacy and data. We prioritize your security and transparency." /><PrivacyPolicy /></>} />
+        <Route path="/terms-and-conditions" element={<><SEO title="Terms & Conditions" description="Read our Terms and Conditions for using Social Vexa's social media downloader and tools." /><TermsAndConditions /></>} />
+        <Route path="/contact" element={<><SEO title="Contact Us - Support" description="Have questions or need help? Reach out to the Social Vexa support team. We're here to assist you." /><Contact /></>} />
       </Routes>
       <Footer />
       <BackToTop />

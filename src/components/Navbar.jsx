@@ -12,6 +12,7 @@ const Navbar = () => {
         { name: 'Facebook', path: '/facebook-video-downloader' },
         { name: 'Instagram', path: '/instagram-video-downloader' },
         { name: 'YouTube', path: '/youtube-video-downloader' },
+        { name: 'AI Captions', path: '/ai-caption-generator' },
         { name: 'Contact', path: '/contact' }
     ];
 

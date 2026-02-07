@@ -83,6 +83,15 @@ const Footer = () => {
                                 </button>
                             </li>
                             <li>
+                                <Link
+                                    to="/ai-caption-generator"
+                                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                                >
+                                    AI Caption Generator
+                                </Link>
+                            </li>
+                            <li>
                                 <button
                                     onClick={() => smoothScroll('faqs')}
                                     className="text-gray-400 hover:text-white transition-colors duration-300"
